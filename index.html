@@ -1,0 +1,501 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <base target="_top">
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="theme-color" content="#111312">
+    <meta name="description" content="Request a photography session with ClusterGh Photography in Accra. Choose your service, date, time and preferred location.">
+    <title>ClusterGh Photography | Book a Session</title>
+    <style>
+      :root {
+        color-scheme: light;
+        --ink: #171a18;
+        --muted: #717773;
+        --paper: #f5f5f1;
+        --card: #fff;
+        --line: #e2e5e0;
+        --green: #1d553e;
+        --green-dark: #123c2b;
+        --lime: #c8dc7a;
+        --error: #a12e26;
+        --serif: Georgia, "Times New Roman", serif;
+        font-family: Inter, "Segoe UI", Arial, sans-serif;
+      }
+
+      * { box-sizing: border-box; }
+      body { margin: 0; color: var(--ink); background: var(--paper); }
+      button, input, select, textarea { font: inherit; }
+      a { color: inherit; }
+
+      .topbar {
+        min-height: 82px;
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        gap: 20px;
+        padding: 12px max(5vw, 22px);
+        background: #111312;
+        color: #fff;
+      }
+      .brand { display: flex; align-items: center; gap: 13px; text-decoration: none; }
+      .brand img { width: 52px; height: 52px; border-radius: 50%; object-fit: cover; background: #fff; }
+      .brand-name { font-size: 13px; font-weight: 750; letter-spacing: .12em; text-transform: uppercase; }
+      .brand-sub { display: block; margin-top: 4px; color: #b5bcb7; font-size: 10px; letter-spacing: .17em; }
+      .top-link { color: #e0e6e0; font-size: 12px; letter-spacing: .04em; text-decoration: none; }
+      .topbar-actions { display: flex; flex-wrap: wrap; justify-content: flex-end; gap: 8px; }
+      .topbar-actions .whatsapp-button { min-height: 38px; padding: 0 12px; font-size: 10px; }
+      .whatsapp-button {
+        display: inline-flex;
+        min-height: 42px;
+        align-items: center;
+        justify-content: center;
+        gap: 9px;
+        padding: 0 17px;
+        border: 1px solid rgba(200, 220, 122, .45);
+        border-radius: 4px;
+        color: #f4f8e9;
+        background: rgba(200, 220, 122, .1);
+        font-size: 11px;
+        font-weight: 700;
+        letter-spacing: .035em;
+        text-decoration: none;
+        transition: background .15s, border-color .15s;
+      }
+      .whatsapp-button:hover { border-color: var(--lime); background: rgba(200, 220, 122, .2); }
+      .whatsapp-icon { width: 17px; height: 17px; flex: 0 0 17px; color: var(--lime); }
+
+      .hero {
+        padding: 72px max(5vw, 22px) 76px;
+        color: #fff;
+        background: #17251d;
+      }
+      .hero-inner { max-width: 1180px; margin: 0 auto; }
+      .eyebrow { color: var(--lime); font-size: 10px; font-weight: 700; letter-spacing: .2em; text-transform: uppercase; }
+      h1 { max-width: 700px; margin: 18px 0 15px; font: 400 clamp(42px, 6vw, 72px)/1.02 var(--serif); letter-spacing: -.035em; }
+      .hero-copy { max-width: 530px; margin: 0; color: #d7dfd9; font-size: 15px; line-height: 1.8; }
+      .hero-meta { display: flex; flex-wrap: wrap; gap: 25px; margin-top: 31px; color: #edf1ed; font-size: 11px; letter-spacing: .04em; }
+      .hero-meta span::before { display: inline-block; width: 4px; height: 4px; margin: 0 9px 2px 0; background: var(--lime); content: ""; }
+
+      main { max-width: 1180px; margin: -30px auto 0; padding: 0 22px 70px; position: relative; z-index: 2; }
+      .booking-layout { display: grid; grid-template-columns: minmax(0, 1fr) 310px; gap: 24px; align-items: start; }
+      .form-card, .side-card { border: 1px solid rgba(17, 19, 18, .06); border-radius: 9px; background: var(--card); box-shadow: 0 12px 36px rgba(27, 39, 31, .06); }
+      .form-card { padding: clamp(25px, 4vw, 48px); }
+      .form-heading { padding-bottom: 25px; border-bottom: 1px solid var(--line); }
+      .form-heading h2 { margin: 0 0 8px; font: 400 31px/1.2 var(--serif); }
+      .form-heading p { margin: 0; color: var(--muted); font-size: 13px; line-height: 1.6; }
+      .section { padding: 27px 0; border-bottom: 1px solid var(--line); }
+      .section-title { display: flex; align-items: baseline; gap: 12px; margin: 0 0 19px; font-size: 12px; font-weight: 750; letter-spacing: .11em; text-transform: uppercase; }
+      .section-number { color: #78905d; font: 400 19px var(--serif); }
+      .field-grid { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 18px 16px; }
+      .field { min-width: 0; }
+      .field.full { grid-column: 1 / -1; }
+      label, .label { display: block; margin-bottom: 8px; color: #363c38; font-size: 11px; font-weight: 650; letter-spacing: .025em; }
+      .optional { color: #929993; font-weight: 400; }
+      input, select, textarea {
+        width: 100%;
+        min-height: 47px;
+        padding: 12px 13px;
+        border: 1px solid #dfe3de;
+        border-radius: 4px;
+        outline: none;
+        color: var(--ink);
+        background: #fff;
+        transition: border-color .16s, box-shadow .16s;
+      }
+      textarea { min-height: 100px; resize: vertical; }
+      input:focus, select:focus, textarea:focus { border-color: var(--green); box-shadow: 0 0 0 3px rgba(29, 85, 62, .1); }
+      input::placeholder, textarea::placeholder { color: #a2a8a3; }
+      .hint { margin: 7px 0 0; color: #828983; font-size: 10px; line-height: 1.55; }
+      .consent { display: flex; align-items: flex-start; gap: 11px; margin: 24px 0 19px; color: #626963; font-size: 11px; line-height: 1.6; }
+      .consent input { flex: 0 0 16px; width: 16px; min-height: 16px; height: 16px; margin: 1px 0 0; accent-color: var(--green); }
+      .submit-button {
+        width: 100%;
+        min-height: 54px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        gap: 12px;
+        border: 0;
+        border-radius: 4px;
+        color: #fff;
+        background: var(--green);
+        cursor: pointer;
+        font-size: 11px;
+        font-weight: 750;
+        letter-spacing: .13em;
+        text-transform: uppercase;
+        transition: background .15s, transform .15s;
+      }
+      .submit-button:hover { background: var(--green-dark); transform: translateY(-1px); }
+      .submit-button:disabled { cursor: wait; opacity: .7; transform: none; }
+      .message { display: none; margin-top: 18px; padding: 15px; border-radius: 4px; font-size: 12px; line-height: 1.65; }
+      .message.visible { display: block; }
+      .message.error { color: var(--error); background: #fff1ef; }
+      .message.success { color: #173d2a; background: #edf5eb; }
+      .message strong { display: block; margin-bottom: 3px; }
+      .booking-whatsapp-actions { display: flex; flex-wrap: wrap; gap: 9px; margin-top: 14px; }
+      .booking-whatsapp-actions .whatsapp-button { color: #fff; background: var(--green); }
+      .booking-whatsapp-actions .whatsapp-button:hover { background: var(--green-dark); }
+      .message-note { display: block; margin-top: 10px; color: #526057; }
+      .privacy-note { margin: 15px 0 0; color: #8a908a; font-size: 10px; line-height: 1.6; text-align: center; }
+
+      .side-column { display: grid; gap: 15px; }
+      .side-card { padding: 23px; }
+      .side-card.dark { color: #fff; background: #17211b; }
+      .side-card h3 { margin: 0 0 13px; font: 400 21px var(--serif); }
+      .side-card p { margin: 0; color: #747b75; font-size: 11px; line-height: 1.75; }
+      .side-card.dark p { color: #c2cbc4; }
+      .service-list { display: grid; grid-template-columns: 1fr 1fr; gap: 10px 8px; margin: 0; padding: 0; list-style: none; }
+      .service-list li { color: #57605a; font-size: 10px; line-height: 1.4; }
+      .service-list li::before { margin-right: 6px; color: #78905d; content: "-"; }
+      .contact-link { display: inline-block; margin-top: 15px; color: #e0edae; font-size: 11px; text-decoration: none; }
+      .contact-link:hover { text-decoration: underline; }
+      .side-card .whatsapp-button { margin-top: 18px; }
+      .step { display: flex; gap: 12px; margin-top: 15px; }
+      .step-no { flex: 0 0 22px; color: #9db278; font: 400 17px var(--serif); }
+      .step p { padding-top: 2px; }
+      footer { padding: 23px; color: #818982; font-size: 10px; text-align: center; }
+      .visually-hidden { position: absolute; width: 1px; height: 1px; overflow: hidden; clip: rect(0, 0, 0, 0); white-space: nowrap; }
+
+      @media (max-width: 800px) {
+        .booking-layout { grid-template-columns: 1fr; }
+        .side-column { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+        .side-card:last-child { grid-column: 1 / -1; }
+        .hero { padding-top: 58px; padding-bottom: 62px; }
+      }
+      @media (max-width: 540px) {
+        .topbar { min-height: 70px; flex-wrap: wrap; }
+        .brand img { width: 44px; height: 44px; }
+        .top-link { max-width: 105px; font-size: 10px; text-align: right; }
+        .topbar-actions { width: 100%; }
+        .topbar-actions .whatsapp-button { flex: 1 1 auto; }
+        .hero { padding: 50px 22px 57px; }
+        .hero-meta { gap: 13px 18px; font-size: 10px; }
+        main { padding: 0 12px 40px; }
+        .form-card { padding: 23px 18px; }
+        .field-grid { grid-template-columns: 1fr; gap: 15px; }
+        .field.full { grid-column: auto; }
+        .side-column { grid-template-columns: 1fr; }
+        .side-card:last-child { grid-column: auto; }
+      }
+      @media (prefers-reduced-motion: reduce) {
+        *, *::before, *::after { scroll-behavior: auto !important; transition-duration: .01ms !important; }
+      }
+    </style>
+  </head>
+  <body>
+    <header class="topbar">
+      <a class="brand" href="#" aria-label="ClusterGh Studios home">
+        <img data-logo-src="<?!= logoDataUrl ?>" alt="ClusterGh Studios logo" onerror="this.onerror=null;this.src='./ClusterGh_Logo.png';">
+        <span class="brand-name">ClusterGh<span class="brand-sub">Studios | Accra</span></span>
+      </a>
+      <nav class="topbar-actions" aria-label="Contact ClusterGh on WhatsApp">
+        <a class="whatsapp-button" href="https://wa.me/233241866720?text=Hi%20ClusterGh%20Photography%2C%20I%20would%20like%20to%20book%20a%20session." target="_blank" rel="noopener" aria-label="Message ClusterGh on WhatsApp at +233 24 186 6720">
+          <svg class="whatsapp-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M20.5 11.5a8.5 8.5 0 0 1-12.6 7.4L3 20l1.2-4.7a8.5 8.5 0 1 1 16.3-3.8Z"/><path d="M9 8.7c.2-.4.5-.5.8-.5h.6c.2 0 .4.1.5.4l.8 1.8c.1.2.1.4-.1.6l-.7.8c.7 1.4 1.8 2.4 3.2 3l.7-.8c.2-.2.4-.2.6-.1l1.8.9c.3.1.4.3.4.5v.6c0 .3-.2.6-.5.8-.6.4-1.3.6-2 .5-1.7-.3-3.2-1.2-4.5-2.5-1.4-1.3-2.2-2.8-2.5-4.5-.1-.7.1-1.4.5-2Z"/></svg>
+          <span>WhatsApp: +233 24 186 6720</span>
+        </a>
+      </nav>
+    </header>
+
+    <section class="hero">
+      <div class="hero-inner">
+        <div class="eyebrow">The moment, beautifully told</div>
+        <h1>Your next story<br>starts here.</h1>
+        <p class="hero-copy">Tell us what you have in mind. Choose your shoot, preferred date and location. Our team will review your request and contact you to confirm the details.</p>
+        <div class="hero-meta"><span>Accra, Ghana</span><span>Made for your moment</span><span>Personalised sessions</span></div>
+      </div>
+    </section>
+
+    <main>
+      <div class="booking-layout">
+        <section class="form-card" aria-labelledby="booking-title">
+          <div class="form-heading">
+            <h2 id="booking-title">Plan your session</h2>
+            <p>Share a few details and we will take it from there. Fields marked * are required.</p>
+          </div>
+          <form id="booking-form">
+            <section class="section" aria-labelledby="about-you-heading">
+              <h3 class="section-title" id="about-you-heading"><span class="section-number">01</span> About you</h3>
+              <div class="field-grid">
+                <div class="field">
+                  <label for="client-name">Your name *</label>
+                  <input id="client-name" name="name" autocomplete="name" maxlength="100" placeholder="Full name" required>
+                </div>
+                <div class="field">
+                  <label for="phone">WhatsApp number *</label>
+                  <input id="phone" name="phone" type="tel" autocomplete="tel" maxlength="30" placeholder="055 123 4567" required>
+                  <p class="hint">Use a Ghana number such as 0551234567 or +233551234567.</p>
+                </div>
+                <div class="field full">
+                  <label for="email">Email address <span class="optional">(optional)</span></label>
+                  <input id="email" name="email" type="email" autocomplete="email" maxlength="254" placeholder="you@example.com">
+                </div>
+              </div>
+            </section>
+
+            <section class="section" aria-labelledby="session-heading">
+              <h3 class="section-title" id="session-heading"><span class="section-number">02</span> Your session</h3>
+              <div class="field-grid">
+                <div class="field">
+                  <label for="service">Shoot type *</label>
+                  <select id="service" name="service" required>
+                    <option value="" disabled selected>Select a session</option>
+                    <option>Studio Shoot</option>
+                    <option>Outdoor Shoot</option>
+                    <option>Birthday Shoot</option>
+                    <option>Graduation Shoot</option>
+                    <option>Fashion Shoot</option>
+                    <option>Portrait Session</option>
+                    <option>Event Photography</option>
+                    <option>Creative Shoot</option>
+                    <option>Corporate Photography</option>
+                    <option>Other</option>
+                  </select>
+                </div>
+                <div class="field">
+                  <label for="outfits">Number of outfits *</label>
+                  <select id="outfits" name="outfits" required>
+                    <option value="" disabled selected>Select outfits</option>
+                    <option>1</option><option>2</option><option>3</option><option>4</option><option>5</option>
+                    <option>6</option><option>7</option><option>8</option><option>9</option><option>10</option>
+                  </select>
+                </div>
+              </div>
+            </section>
+
+            <section class="section" aria-labelledby="schedule-heading">
+              <h3 class="section-title" id="schedule-heading"><span class="section-number">03</span> Date &amp; place</h3>
+              <div class="field-grid">
+                <div class="field">
+                  <label for="date">Preferred date *</label>
+                  <input id="date" name="date" type="date" required>
+                </div>
+                <div class="field">
+                  <label for="time">Preferred time *</label>
+                  <input id="time" name="time" type="time" required>
+                  <p class="hint">Times are in Ghana time (GMT).</p>
+                </div>
+                <div class="field full">
+                  <label for="location">Location preference *</label>
+                  <select id="location" name="location" required>
+                    <option value="ClusterGh Studios" selected>ClusterGh Studios</option>
+                    <option value="Outdoor location">Outdoor location</option>
+                    <option value="Client's preferred location">Client's preferred location</option>
+                    <option value="Event venue">Event venue</option>
+                  </select>
+                </div>
+                <div class="field">
+                  <label for="event-date">Event or birthday date <span class="optional">(optional)</span></label>
+                  <input id="event-date" name="eventDate" type="date">
+                </div>
+                <div class="field full">
+                  <label for="venue">Preferred shoot location or venue details <span class="optional">(optional)</span></label>
+                  <input id="venue" name="venue" maxlength="250" placeholder="Address, venue name, or location details">
+                  <p class="hint">For outdoor sessions, add the preferred location or venue details here.</p>
+                </div>
+              </div>
+            </section>
+
+            <section class="section" aria-labelledby="notes-heading">
+              <h3 class="section-title" id="notes-heading"><span class="section-number">04</span> Make it yours</h3>
+              <div class="field">
+                <label for="notes">Anything else we should know? <span class="optional">(optional)</span></label>
+                <textarea id="notes" name="notes" maxlength="1000" placeholder="Share your ideas, inspiration, or special requests."></textarea>
+              </div>
+            </section>
+
+            <div class="visually-hidden" aria-hidden="true">
+              <label for="website">Leave this field empty</label>
+              <input id="website" name="website" tabindex="-1" autocomplete="off">
+            </div>
+            <label class="consent" for="agreement">
+              <input id="agreement" name="agreement" type="checkbox" required>
+              <span>I understand that my booking is a request and is not confirmed until ClusterGh Photography contacts me.</span>
+            </label>
+            <label class="consent" for="contact">
+              <span class="visually-hidden">Preferred contact method</span>
+              <select id="contact" name="contact" required aria-label="Preferred contact method">
+                <option value="WhatsApp" selected>Preferred contact: WhatsApp</option>
+                <option value="Email">Preferred contact: email</option>
+              </select>
+            </label>
+            <label class="consent" for="consent">
+              <input id="consent" name="consent" type="checkbox" required>
+              <span>I agree that ClusterGh Studios may use these details to manage this booking request and contact me about my session. I will not include sensitive personal information.</span>
+            </label>
+            <button class="submit-button" id="submit-button" type="submit"><span>Submit Booking</span></button>
+            <div class="message" id="message" role="status" aria-live="polite"></div>
+            <p class="privacy-note">Submitting a request does not reserve a slot. A member of our team must confirm your appointment.</p>
+          </form>
+        </section>
+
+        <aside class="side-column" aria-label="Booking information">
+          <section class="side-card dark">
+            <div class="eyebrow">A little about us</div>
+            <h3>Made with care.<br>Remembered forever.</h3>
+            <p>From portraits to celebrations, we create thoughtful images that feel like you. Let's make something worth keeping.</p>
+            <a class="whatsapp-button" href="https://wa.me/233241866720?text=Hi%20ClusterGh%20Photography%2C%20I%20have%20a%20question%20about%20booking%20a%20session." target="_blank" rel="noopener" aria-label="Chat on WhatsApp at +233 24 186 6720">
+              <svg class="whatsapp-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M20.5 11.5a8.5 8.5 0 0 1-12.6 7.4L3 20l1.2-4.7a8.5 8.5 0 1 1 16.3-3.8Z"/><path d="M9 8.7c.2-.4.5-.5.8-.5h.6c.2 0 .4.1.5.4l.8 1.8c.1.2.1.4-.1.6l-.7.8c.7 1.4 1.8 2.4 3.2 3l.7-.8c.2-.2.4-.2.6-.1l1.8.9c.3.1.4.3.4.5v.6c0 .3-.2.6-.5.8-.6.4-1.3.6-2 .5-1.7-.3-3.2-1.2-4.5-2.5-1.4-1.3-2.2-2.8-2.5-4.5-.1-.7.1-1.4.5-2Z"/></svg>
+              <span>Chat on WhatsApp</span>
+            </a>
+          </section>
+          <section class="side-card">
+            <h3>Choose your story</h3>
+            <ul class="service-list">
+              <li>Studio shoot</li><li>Outdoor shoot</li>
+              <li>Birthday</li><li>Graduation</li>
+              <li>Fashion</li><li>Portraits</li>
+              <li>Events</li><li>Creative</li>
+              <li>Corporate</li>
+            </ul>
+          </section>
+          <section class="side-card">
+            <h3>What happens next?</h3>
+            <div class="step"><span class="step-no">1</span><p>Send your preferred session details.</p></div>
+            <div class="step"><span class="step-no">2</span><p>We check your date and time against our calendar.</p></div>
+            <div class="step"><span class="step-no">3</span><p>We send your booking reference and update by WhatsApp.</p></div>
+          </section>
+        </aside>
+      </div>
+    </main>
+    <footer>ClusterGh Studios | Dansoman Road, Aliu Mahama Street, Accra, Ghana</footer>
+
+    <script>
+      const logoImage = document.querySelector('.brand img');
+      const embeddedLogo = logoImage.getAttribute('data-logo-src');
+      logoImage.src = embeddedLogo && embeddedLogo.indexOf('data:image/') === 0 ? embeddedLogo : './ClusterGh_Logo.png';
+      const form = document.getElementById('booking-form');
+      const button = document.getElementById('submit-button');
+      const message = document.getElementById('message');
+      const dateInput = document.getElementById('date');
+      function ghanaToday() {
+        const parts = new Intl.DateTimeFormat('en', {
+          timeZone: 'Africa/Accra', year: 'numeric', month: '2-digit', day: '2-digit'
+        }).formatToParts(new Date()).reduce((result, part) => {
+          result[part.type] = part.value;
+          return result;
+        }, {});
+        return parts.year + '-' + parts.month + '-' + parts.day;
+      }
+      dateInput.min = ghanaToday();
+      document.getElementById('event-date').min = ghanaToday();
+
+      function showMessage(type, title, body) {
+        message.className = 'message visible ' + type;
+        message.replaceChildren();
+        const heading = document.createElement('strong');
+        heading.textContent = title;
+        message.append(heading, document.createTextNode(body));
+      }
+
+      function bookingWhatsAppMessage(result, payload) {
+        const date = String(payload.date || '').split('-').reverse().join('/');
+        const eventDate = payload.eventDate
+          ? String(payload.eventDate).split('-').reverse().join('/')
+          : 'Not provided';
+        return [
+          'Hello ClusterGh Photography, I would like to request a photography session.',
+          '',
+          'Booking reference: ' + result.reference,
+          'Name: ' + payload.name,
+          'My WhatsApp number: ' + payload.phone,
+          payload.email ? 'Email: ' + payload.email : '',
+          'Service: ' + payload.service,
+          'Number of outfits: ' + payload.outfits,
+          typeof result.packagePrice === 'number' && isFinite(result.packagePrice)
+            ? 'Package price: GHS ' + result.packagePrice.toFixed(2)
+            : '',
+          'Preferred date: ' + date,
+          'Preferred time: ' + payload.time + ' (Ghana time)',
+          'Location preference: ' + payload.location,
+          'Location details: ' + (payload.venue || 'Not provided'),
+          'Event/birthday date: ' + eventDate,
+          'Notes: ' + (payload.notes || 'None'),
+          '',
+          'I understand this is a request only and is not confirmed until ClusterGh Photography confirms availability.'
+        ].filter(Boolean).join('\n');
+      }
+
+      function createWhatsAppIcon() {
+        const svgNamespace = 'http://www.w3.org/2000/svg';
+        const icon = document.createElementNS(svgNamespace, 'svg');
+        icon.setAttribute('viewBox', '0 0 24 24');
+        icon.setAttribute('fill', 'none');
+        icon.setAttribute('stroke', 'currentColor');
+        icon.setAttribute('stroke-width', '1.6');
+        icon.setAttribute('stroke-linecap', 'round');
+        icon.setAttribute('stroke-linejoin', 'round');
+        icon.setAttribute('aria-hidden', 'true');
+        icon.classList.add('whatsapp-icon');
+        const bubble = document.createElementNS(svgNamespace, 'path');
+        bubble.setAttribute('d', 'M20.5 11.5a8.5 8.5 0 0 1-12.6 7.4L3 20l1.2-4.7a8.5 8.5 0 1 1 16.3-3.8Z');
+        const handset = document.createElementNS(svgNamespace, 'path');
+        handset.setAttribute('d', 'M9 8.7c.2-.4.5-.5.8-.5h.6c.2 0 .4.1.5.4l.8 1.8c.1.2.1.4-.1.6l-.7.8c.7 1.4 1.8 2.4 3.2 3l.7-.8c.2-.2.4-.2.6-.1l1.8.9c.3.1.4.3.4.5v.6c0 .3-.2.6-.5.8-.6.4-1.3.6-2 .5-1.7-.3-3.2-1.2-4.5-2.5-1.4-1.3-2.2-2.8-2.5-4.5-.1-.7.1-1.4.5-2Z');
+        icon.append(bubble, handset);
+        return icon;
+      }
+
+      function renderBookingWhatsAppActions(result, payload, firstWhatsAppWindow) {
+        const messageText = bookingWhatsAppMessage(result, payload);
+        const recipient = { phone: '233241866720', label: 'Send booking to WhatsApp: +233 24 186 6720' };
+        message.className = 'message visible success';
+        message.replaceChildren();
+        const heading = document.createElement('strong');
+        heading.textContent = 'Request saved - ' + result.reference;
+        const intro = document.createTextNode('Your request is saved. WhatsApp will open with your booking details ready; tap Send to submit it to ClusterGh Photography.');
+        const actions = document.createElement('div');
+        actions.className = 'booking-whatsapp-actions';
+        const firstWhatsAppUrl = 'https://wa.me/' + recipient.phone + '?text=' + encodeURIComponent(messageText);
+        const link = document.createElement('a');
+        link.className = 'whatsapp-button';
+        link.href = firstWhatsAppUrl;
+        link.target = '_blank';
+        link.rel = 'noopener';
+        link.append(createWhatsAppIcon(), document.createTextNode(recipient.label));
+        actions.appendChild(link);
+        const note = document.createElement('span');
+        note.className = 'message-note';
+        note.textContent = result.availability + ' Submitting does not reserve or confirm a time. The message is not sent until you press Send in WhatsApp. If WhatsApp does not open automatically, use the button above.';
+        message.append(heading, intro, actions, note);
+        if (firstWhatsAppWindow && firstWhatsAppUrl) {
+          try {
+            firstWhatsAppWindow.location.href = firstWhatsAppUrl;
+          } catch (error) {
+            note.textContent = result.availability + ' Your request is saved, but WhatsApp could not open automatically. Use either send button above; messages are sent only after you press Send.';
+          }
+        }
+      }
+
+      form.addEventListener('submit', function (event) {
+        event.preventDefault();
+        if (!form.reportValidity()) return;
+        const firstWhatsAppWindow = window.open('about:blank', '_blank');
+        button.disabled = true;
+        button.querySelector('span').textContent = 'Saving request...';
+        message.className = 'message';
+
+        const payload = Object.fromEntries(new FormData(form).entries());
+        google.script.run
+          .withSuccessHandler(function (result) {
+            button.disabled = false;
+            button.querySelector('span').textContent = 'Submit Booking';
+            form.reset();
+            dateInput.min = ghanaToday();
+            document.getElementById('event-date').min = ghanaToday();
+            document.getElementById('location').value = 'ClusterGh Studios';
+            renderBookingWhatsAppActions(result, payload, firstWhatsAppWindow);
+            message.focus();
+          })
+          .withFailureHandler(function (error) {
+            if (firstWhatsAppWindow) firstWhatsAppWindow.close();
+            button.disabled = false;
+            button.querySelector('span').textContent = 'Submit Booking';
+            showMessage('error', 'We could not submit your request', error && error.message ? error.message : 'Please try again or contact the studio on WhatsApp.');
+            message.focus();
+          })
+          .submitBooking(payload);
+      });
+    </script>
+  </body>
+</html>

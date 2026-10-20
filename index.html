@@ -390,6 +390,7 @@
       }
 
       function bookingWhatsAppMessage(result, payload) {
+        result = result || {};
         const date = String(payload.date || '').split('-').reverse().join('/');
         const eventDate = payload.eventDate
           ? String(payload.eventDate).split('-').reverse().join('/')
@@ -397,7 +398,7 @@
         return [
           'Hello ClusterGh Photography, I would like to request a photography session.',
           '',
-          'Booking reference: ' + result.reference,
+          'Booking reference: ' + (result.reference || 'To be assigned by the studio'),
           'Name: ' + payload.name,
           'My WhatsApp number: ' + payload.phone,
           payload.email ? 'Email: ' + payload.email : '',
@@ -436,7 +437,7 @@
         return icon;
       }
 
-      function renderBookingWhatsAppActions(result, payload, firstWhatsAppWindow) {
+      function renderBookingWhatsAppActions(result, payload) {
         const messageText = bookingWhatsAppMessage(result, payload);
         const recipient = { phone: '233241866720', label: 'Send booking to WhatsApp: +233 24 186 6720' };
         message.className = 'message visible success';
@@ -458,24 +459,18 @@
         note.className = 'message-note';
         note.textContent = result.availability + ' Submitting does not reserve or confirm a time. The message is not sent until you press Send in WhatsApp. If WhatsApp does not open automatically, use the button above.';
         message.append(heading, intro, actions, note);
-        if (firstWhatsAppWindow && firstWhatsAppUrl) {
-          try {
-            firstWhatsAppWindow.location.href = firstWhatsAppUrl;
-          } catch (error) {
-            note.textContent = result.availability + ' Your request is saved, but WhatsApp could not open automatically. Use either send button above; messages are sent only after you press Send.';
-          }
-        }
       }
 
       form.addEventListener('submit', function (event) {
         event.preventDefault();
         if (!form.reportValidity()) return;
-        const firstWhatsAppWindow = window.open('about:blank', '_blank');
+        const payload = Object.fromEntries(new FormData(form).entries());
+        const quickMessage = bookingWhatsAppMessage(null, payload);
+        const quickWhatsAppUrl = 'https://wa.me/233241866720?text=' + encodeURIComponent(quickMessage);
+        window.open(quickWhatsAppUrl, '_blank');
         button.disabled = true;
         button.querySelector('span').textContent = 'Saving request...';
-        message.className = 'message';
-
-        const payload = Object.fromEntries(new FormData(form).entries());
+        showMessage('success', 'Opening WhatsApp and saving your request', 'Your booking details are being saved. In WhatsApp, review the message and tap Send to submit it.');
         google.script.run
           .withSuccessHandler(function (result) {
             button.disabled = false;
@@ -484,14 +479,13 @@
             dateInput.min = ghanaToday();
             document.getElementById('event-date').min = ghanaToday();
             document.getElementById('location').value = 'ClusterGh Studios';
-            renderBookingWhatsAppActions(result, payload, firstWhatsAppWindow);
+            renderBookingWhatsAppActions(result, payload);
             message.focus();
           })
           .withFailureHandler(function (error) {
-            if (firstWhatsAppWindow) firstWhatsAppWindow.close();
             button.disabled = false;
             button.querySelector('span').textContent = 'Submit Booking';
-            showMessage('error', 'We could not submit your request', error && error.message ? error.message : 'Please try again or contact the studio on WhatsApp.');
+            showMessage('error', 'WhatsApp opened, but we could not save your booking', (error && error.message ? error.message : 'Please try again.') + ' Do not send the WhatsApp draft until the booking has been saved successfully.');
             message.focus();
           })
           .submitBooking(payload);

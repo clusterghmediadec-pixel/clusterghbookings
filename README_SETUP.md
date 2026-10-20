@@ -27,7 +27,7 @@ Google Forms cannot show live calendar availability. Every submission is a reque
 
 The Apps Script web app is deployed as the owner for **Anyone** access and serves only the customer booking page. Do not share the private spreadsheet or calendar publicly. This version has no web admin dashboard; authorized staff manage requests in the restricted spreadsheet.
 
-The website shows only one WhatsApp contact: `+233 24 186 6720`. The header and contact link open a general WhatsApp chat and do not create a spreadsheet booking by themselves. To save a booking request and generate its reference, submit **Submit Booking**; the page opens that same WhatsApp chat with the full request prefilled. The customer must press **Send** in WhatsApp. Click-to-chat cannot silently send messages. The Google Form remains a separate submission route and does not automatically open WhatsApp.
+The website shows only one WhatsApp contact: `+233 24 186 6720`. The header and contact link open a general WhatsApp chat and do not create a spreadsheet booking by themselves. On **Submit Booking**, the page opens that WhatsApp chat immediately with the request details while the spreadsheet save runs. The draft says the booking reference will be assigned by the studio; the page shows the actual reference after a successful save. Wait for the page's save confirmation before sending the WhatsApp draft. The customer must press **Send** in WhatsApp; click-to-chat cannot silently send messages. The Google Form remains a separate submission route and does not automatically open WhatsApp.
 
 ## Existing Google components and updating the deployment
 
